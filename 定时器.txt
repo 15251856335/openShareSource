@@ -1,0 +1,20 @@
+SELECT * FROM user_jobs; 
+
+declare job number;
+BEGIN
+  DBMS_JOB.SUBMIT(
+        JOB => job,
+        WHAT => 'bu_project_ICT_report;',
+        NEXT_DATE => to_date('25-10-2020', 'dd-mm-yyyy'),
+        INTERVAL => 'to_date( to_char(add_months(trunc(sysdate),+1),''yyyymm'')||''25'', ''yyyymmdd'' ) '
+      );
+end;
+
+Begin
+  dbms_job.remove(50); -- 24就是上面查出来的定时器编号
+Commit;
+End;
+
+
+
+用例：sysdate + 10/(24 * 60)  to_date( '2020-10-25', 'yyyy-mm-dd'),to_date('25-10-2020', 'dd-mm-yyyy'),
